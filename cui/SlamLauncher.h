@@ -18,53 +18,48 @@
 #include <vector>
 #ifdef _WIN32
 #include <windows.h>
-#elif __linux__
+//#elif __linux__
+#else
 #include <unistd.h>
 #endif
 
-#include "SensorDataReader.h"
-#include "PointCloudMap.h"
-#include "SlamFrontEnd.h"
-#include "SlamBackEnd.h"
-#include "MapDrawer.h"
 #include "FrameworkCustomizer.h"
+#include "MapDrawer.h"
+#include "PointCloudMap.h"
+#include "SensorDataReader.h"
+#include "SlamBackEnd.h"
+#include "SlamFrontEnd.h"
 
 /////////////
 
-class SlamLauncher
-{
-private:
-  int startN;                      // 開始スキャン番号
-  int drawSkip;                    // 描画間隔
-  bool odometryOnly;               // オドメトリによる地図構築か
-  Pose2D ipose;                    // オドメトリ地図構築の補助データ。初期位置の角度を0にする
+class SlamLauncher {
+ private:
+  int startN;         // 開始スキャン番号
+  int drawSkip;       // 描画間隔
+  bool odometryOnly;  // オドメトリによる地図構築か
+  Pose2D ipose;  // オドメトリ地図構築の補助データ。初期位置の角度を0にする
 
-  Pose2D lidarOffset;              // レーザスキャナとロボットの相対位置
+  Pose2D lidarOffset;  // レーザスキャナとロボットの相対位置
 
-  SensorDataReader sreader;        // ファイルからのセンサデータ読み込み
-  PointCloudMap *pcmap;            // 点群地図
-  SlamFrontEnd sfront;             // SLAMフロントエンド
-  MapDrawer mdrawer;               // gnuplotによる描画
-  FrameworkCustomizer fcustom;     // フレームワークの改造
+  SensorDataReader sreader;  // ファイルからのセンサデータ読み込み
+  PointCloudMap *pcmap;      // 点群地図
+  SlamFrontEnd sfront;       // SLAMフロントエンド
+  MapDrawer mdrawer;         // gnuplotによる描画
+  FrameworkCustomizer fcustom;  // フレームワークの改造
 
-public:
-  SlamLauncher() : startN(0), drawSkip(10), odometryOnly(false), pcmap(nullptr) {
-  }
+ public:
+  SlamLauncher()
+      : startN(0), drawSkip(10), odometryOnly(false), pcmap(nullptr) {}
 
-  ~SlamLauncher() {
-  }
+  ~SlamLauncher() {}
 
-///////////
+  ///////////
 
-  void setStartN(int n) {
-    startN = n;
-  }
+  void setStartN(int n) { startN = n; }
 
-  void setOdometryOnly(bool p) {
-    odometryOnly = p;
-  }
+  void setOdometryOnly(bool p) { odometryOnly = p; }
 
-///////////
+  ///////////
 
   void run();
   void showScans();
